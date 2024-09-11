@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-relational-migrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: migrator
+  template:
+    metadata:
+      labels:
+        app: migrator
+    spec:
+      containers:
+      - name: migrator
+        image: public.ecr.aws/v4d7k6c9/relational-migrator:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PGSQL_HOST
+          value: "my-postgresql"  # Replace
+        - name: MONGODB_HOST
+          value: "my-mongodb"      # Replace
